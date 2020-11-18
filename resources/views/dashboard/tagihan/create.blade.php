@@ -31,8 +31,10 @@
       <div class="form-group">
         <label for="seeAnotherField" >Peserta</label>
         <select class="form-control" id="seeAnotherField" name="peserta">
-              <option value="1">Semua Siswa</option>
-              <option value="2" hidden="true">Hanya Kelas</option>
+              <option value="0">Semua Siswa</option>
+              @foreach($kelas as $k)
+            <option value="{{$k->id}}">{{$k->nama}}</option>
+          @endforeach
         </select>
       </div>
       <div class="form-group" id="kelasFieldDiv">

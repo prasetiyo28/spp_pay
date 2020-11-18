@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Models\DetailTagihan;
 use App\Models\Transaksi;
+use PDF;
 
 class DashboardController extends Controller
 {
@@ -115,5 +116,6 @@ class DashboardController extends Controller
 
         $data['lap_tunggakan'] = $tunggakan->get();        
         return view('dashboard.laporan.lap_tunggakan',$data);
+
     }
 }

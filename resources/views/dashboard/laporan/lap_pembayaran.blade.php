@@ -67,6 +67,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body">
+      <button class="btn btn-info" onclick='printDiv()'>cetak</button>
         <table id="example1" class="table table-bordered table-striped" style="width:100%!important">
             <thead>
             <tr>
@@ -119,6 +120,27 @@ function hai() {
   window.location = `${url}`;
 }
 </script>
+
+<script> 
+      function printDiv(){
+            var tab = document.getElementById('example1');
+
+            var style = "<style>";
+                style = style + "table {width: 100%;font: 17px Calibri;}";
+                style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+                style = style + "padding: 2px 3px;text-align: center;}";
+                style = style + "</style>";
+
+            var win = window.open('', '', 'height=700,width=700');
+            var heading = '<center margin="10px"><h1>Laporan Pembayaran</h1></center>'
+            win.document.write(heading);          //  add the style.
+            win.document.write(style);          //  add the style.
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    
+    </script> 
 
 <script>
   $('#bulanan').hide();

@@ -34,6 +34,7 @@ class TagihanController extends Controller
         $kelas = Kelas::all()->where('deleted_at', '1');
         $siswa = Siswa::all()->where('deleted_at', '1');
         return view('dashboard.tagihan.create',['kelas' => $kelas, 'siswa' => $siswa]);
+        // echo json_encode($kelas);
     }
 
     public function store(Request $request)
@@ -45,8 +46,13 @@ class TagihanController extends Controller
         ]);
 
         $peserta = $request->peserta;
-        
-        if($peserta == 1){ //Jika Semua Siswa
+        $siswa = Siswa::with('getUser');
+        if ($peserta > 0) {
+           $siswa->where('kelas_id',$peserta);
+        } 
+
+        // return $siswa->get();
+        // if($peserta == 1){ //Jika Semua Siswa
             $tagihan = Tagihan::create([
                 // 'kode_tagihan' => "TG".Carbon::now()->format('H-is')."-".$s->id,
                 'nama' => $request->nama,
@@ -54,7 +60,8 @@ class TagihanController extends Controller
                 'peserta' => 'semua siswa',
                 'keterangan' => $request->keterangan,
                 ]); //buat tagihan
-                $siswa = Siswa::with('getUser')->get(); //Ambil Semua siswa
+                //Ambil Semua siswa
+                $siswa = $siswa->get();
                 foreach($siswa as $s){
                 $detail_tagihan = DetailTagihan::create([
                     'siswa_id' => $s->id,
@@ -65,26 +72,28 @@ class TagihanController extends Controller
                 ]);//Simpan tagihan sesuai jumlah siswa
                 
                 if ($s->getUser) {
+                    // Mail::to($s->getUser->email)->send(new KirimTagihanSiswa($detail_tagihan,$siswa));
                     Mail::to($s->getUser->email)->send(new KirimTagihanSiswa($detail_tagihan,$siswa));
+                    
                 }
                 
             }
-        }else{ //Hanya kelas
-            $kelas = $request->kelas_id;
-            $tagihan = Tagihan::create([
-                'nama' => $request->nama,
-                'jumlah' => $request->jumlah,
-                'peserta' => 'hanya kelas',
-                'keterangan' => $request->keterangan,
-                // 'kode_tagihan' => "TG".Carbon::now()->format('His')."-".Carbon::now()->format('Y/m/d'),
-                ]);
-            $tagihan_siswa = DetailTagihan::create([
-                'kode_tagihan' => "TG".Carbon::now()->format('His')."-".Carbon::now()->format('Y/m/d'),
-                'kelas_id' => $kelas,
-                'tagihan_id' => $tagihan->id,
-                'status' => "belum dibayar"
-            ]);
-        }
+        // }else{ //Hanya kelas
+        //     $kelas = $request->kelas_id;
+        //     $tagihan = Tagihan::create([
+        //         'nama' => $request->nama,
+        //         'jumlah' => $request->jumlah,
+        //         'peserta' => 'hanya kelas',
+        //         'keterangan' => $request->keterangan,
+        //         // 'kode_tagihan' => "TG".Carbon::now()->format('His')."-".Carbon::now()->format('Y/m/d'),
+        //         ]);
+        //     $tagihan_siswa = DetailTagihan::create([
+        //         'kode_tagihan' => "TG".Carbon::now()->format('His')."-".Carbon::now()->format('Y/m/d'),
+        //         'kelas_id' => $kelas,
+        //         'tagihan_id' => $tagihan->id,
+        //         'status' => "belum dibayar"
+        //     ]);
+        // }
         return redirect()->route('tagihan.index')->with('success', 'Item Tagihan ditambahkan');
     }
 

@@ -124,6 +124,13 @@
             </span>
           </a>
         </li>
+        <li class="{{ Route::currentRouteName() == 'wali-kelas.index' || Route::currentRouteName() == 'kwali-kelaselas.edit' ||Route::currentRouteName() == 'wali-kelas.create'  ? 'active' : '' }}">
+          <a href="{{route('wali-kelas.index')}}">
+            <i class="fa fa-cube"></i> <span>Wali Kelas</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
         <li class="{{ Route::currentRouteName() == 'siswa.index' || Route::currentRouteName() == 'siswa.edit' || Route::currentRouteName() == 'siswa.create' ? 'active' : '' }}">
           <a href="{{route('siswa.index')}}">
             <i class="fa fa-users"></i> <span>Siswa</span>
@@ -189,6 +196,27 @@
             </li>
           </ul>
         </li>
+        @elseif(auth()->user()->role == 'walikelas')
+        <li class="{{ Route::currentRouteName() == 'dashboard'  ? 'active' : '' }}">
+          <a href="{{route('dashboard')}}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+        <li class="{{ Route::currentRouteName() == 'kepsek.siswa' ||Route::currentRouteName() == 'kepsek.siswa'  ? 'active' : '' }}">
+          <a href="{{route('kepsek.siswa')}}">
+            <i class="fa fa-users"></i> <span>Siswa</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+        <li class="{{ Route::currentRouteName() == 'tagihan.index' || Route::currentRouteName() == 'tagihan.edit' || Route::currentRouteName() == 'tagihan.create' ? 'active' : '' }}">
+          <a href="{{route('tagihan.index')}}">
+            <i class="fa fa-list-alt"></i> <span>Tagihan</span>
+            <span class="pull-right-container"></span>
+          </a>
+        </li>
         @endif
       </ul>
     </section>
@@ -248,7 +276,7 @@
   });
 
 
-  
+
 </script>
 
 @stack('footer')

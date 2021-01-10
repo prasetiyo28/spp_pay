@@ -36,7 +36,7 @@ Route::get('/', 'DashboardController@index')->name('dashboard.index');
 // Route::get('beranda', 'BerandaController@beranda');
 
 
-Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,superadmin']], function() {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,superadmin,walikelas']], function() {
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::get('home', 'DashboardController@dashboard')->name('dashboard');
     Route::get('profile', 'DashboardController@profile')->name('dashboard.profile');
@@ -63,7 +63,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,
         Route::post('update/{id}', 'PeriodeController@update')->name('periode.update');
         Route::get('delete/{id}','PeriodeController@destroy')->name('periode.delete');
         Route::get('data', 'PeriodeController@getData')->name('periode.getdata');
-        
+
     });
 
     Route::group(['prefix' => 'kelas'], function(){
@@ -75,7 +75,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,
         Route::get('{id}/delete', 'KelasController@destroy')->name('kelas.delete');
         Route::get('data', 'KelasController@getData')->name('kelas.getdata');
     });
-    
+
     Route::group(['prefix' => 'tagihan'], function(){
         Route::get('/', 'TagihanController@index')->name('tagihan.index');
         Route::get('create', 'TagihanController@create')->name('tagihan.create');
@@ -85,6 +85,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,
         Route::get('{id}/delete', 'TagihanController@destroy')->name('tagihan.delete');
         Route::get('data', 'TagihanController@getData')->name('tagihan.getdata');
     });
+
+    Route::resource('wali-kelas', 'WaliKelasController');
+    Route::get('data-wali-kelas', 'WaliKelasController@getData')->name('wali-kelas.getdata');
 
     Route::group(['prefix' => 'transaksi'], function(){
         Route::get('/', 'TransaksiController@index')->name('transaksi.index');
@@ -100,7 +103,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,
         Route::get('print/{id}','TransaksiController@printInvoice')->name('transaksi.print');
     });
 
-   
+
     Route::group(['prefix' => 'laporan'], function(){
         Route::get('/', 'KepsekController@index')->name('kepsek.dashboard');
         Route::get('/siswa', 'KepsekController@siswa')->name('kepsek.siswa');
@@ -127,6 +130,6 @@ Route::group(['prefix' => 'beranda', 'middleware' => ['auth','checkRole:siswa']]
     Route::get('data', 'BerandaController@getData')->name('tagihan.beranda.getdata');
     Route::get('datahistory', 'BerandaController@getDataHistory')->name('tagihan.beranda.history');
 
-    
+
 });
 

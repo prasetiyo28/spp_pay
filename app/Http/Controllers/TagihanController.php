@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tagihan;
 use App\Models\Kelas;
+use App\Models\WaliKelas;
 use App\Models\Siswa;
 use App\Models\DetailTagihan;
 use Carbon\Carbon;
@@ -19,7 +20,11 @@ class TagihanController extends Controller
     {
         $tagihan = \App\Models\Tagihan::all();
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
-       
+        // if(auth()->user()->role == 'walikelas'){
+        //     $userId = auth()->user()->id;
+        //     $waliKelas = WaliKelas::where('user_id',$userId)->first();
+        //     $kelas_id = $waliKelas->kelas_id;
+        // }
         return view('dashboard.tagihan.all', compact('tagihan','kelas'));
     }
 
@@ -28,7 +33,7 @@ class TagihanController extends Controller
     //     $data['tagihan'] = Tagihan::all();
     //     return view('dashboard.tagihan.all', $data);
     // }
-    
+
     public function create()
     {
         $kelas = Kelas::all()->where('deleted_at', '1');
@@ -46,18 +51,20 @@ class TagihanController extends Controller
         ]);
 
         $peserta = $request->peserta;
+        $ketPeserta = 'Semua Siswa';
         $siswa = Siswa::with('getUser');
         if ($peserta > 0) {
            $siswa->where('kelas_id',$peserta);
-        } 
-
+           $kelas = Kelas::where('id', $peserta)->first();
+           $ketPeserta = $kelas->nama;
+        }
         // return $siswa->get();
         // if($peserta == 1){ //Jika Semua Siswa
             $tagihan = Tagihan::create([
                 // 'kode_tagihan' => "TG".Carbon::now()->format('H-is')."-".$s->id,
                 'nama' => $request->nama,
                 'jumlah' => $request->jumlah,
-                'peserta' => 'semua siswa',
+                'peserta' => $ketPeserta,
                 'keterangan' => $request->keterangan,
                 ]); //buat tagihan
                 //Ambil Semua siswa
@@ -70,13 +77,13 @@ class TagihanController extends Controller
                     'kode_tagihan' => "TG".Carbon::now()->format('H-is')."-".$s->id,
                     'status' => "belum dibayar"
                 ]);//Simpan tagihan sesuai jumlah siswa
-                
+
                 if ($s->getUser) {
                     // Mail::to($s->getUser->email)->send(new KirimTagihanSiswa($detail_tagihan,$siswa));
                     Mail::to($s->getUser->email)->send(new KirimTagihanSiswa($detail_tagihan,$siswa));
-                    
+
                 }
-                
+
             }
         // }else{ //Hanya kelas
         //     $kelas = $request->kelas_id;
@@ -107,7 +114,7 @@ class TagihanController extends Controller
         $tagihan = \App\Models\Tagihan::find($id);
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
         $siswa = \App\Models\Siswa::all()->where('deleted_at', '1');
-       
+
         return view('dashboard.tagihan.update', compact('tagihan','kelas','siswa'));
     }
 
@@ -119,7 +126,7 @@ class TagihanController extends Controller
             'peserta' => $request->peserta,
             'keterangan' => $request->keterangan
         ]);
-        
+
         return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil diubah');
     }
 
@@ -134,7 +141,7 @@ class TagihanController extends Controller
 
     public function getData()
     {
-        $query = Tagihan::select(['id','nama', 'jumlah', 'peserta', 'keterangan','deleted_at'])->where('deleted_at', '1');
+        $query = Tagihan::select(['id','nama', 'jumlah', 'peserta', 'keterangan','deleted_at'])->where('deleted_at', '1')->orderBy('created_at','desc');
 
        return DataTables::of($query)
             ->addColumn('peserta', function($tagihan){
@@ -142,7 +149,7 @@ class TagihanController extends Controller
                 if($tagihan->peserta == 'semua siswa'){
                     $output = 'Semua Siswa';
                 }else{
-                    $output = 'Hanya Beberapa Kelas';
+                    $output = 'Hanya Beberapa Kelas ('.$tagihan->peserta.')' ;
                 }
                 return $output;
             })

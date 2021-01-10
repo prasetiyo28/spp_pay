@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    
+
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $primarykey='id';
 
     protected $fillable = [
-        'nama', 'email', 'password','siswa_id'
+        'nama', 'email', 'password','siswa_id','role'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -67,7 +67,7 @@ class User extends Authenticatable
         return false;
     }
 
-    // public function siswa() 
+    // public function siswa()
     // {
     //     return $this->belongsTo('App\Models\Siswa', 'user_id');
     // }

@@ -15,7 +15,7 @@
         </ol> -->
       </section>
       <!-- Main content -->
-       
+
       <section class="content">
       <div class="row">
         <div class="col-xs-12">
@@ -27,8 +27,8 @@
                   <th width="10"></th>
                   <th>Nama</th>
                   <th width="100">Jumlah</th>
-                  <th>Kode Tagihan</th> 
-                  <th>Keterangan</th> 
+                  <th>Kode Tagihan</th>
+                  <th>Keterangan</th>
                 </tr>
               </thead>
               </table>
@@ -58,7 +58,7 @@
 @push('footer')
 <script src="/assets/material/bower_components/moment/min/moment.min.js"></script>
 <script src="/assets/material/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-  <script type="text/javascript"> 
+  <script type="text/javascript">
     $(function() {
       $('#tagihanberanda-table').DataTable({
         responsive: true,

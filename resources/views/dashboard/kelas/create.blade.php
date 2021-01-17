@@ -23,7 +23,7 @@
         <div class="form-group">
             <label>Minimal</label>
             <select class="form-control" style="width: 100%;" name="periode_id">
-                <option value="">Pilih periode</option>
+                <option value="">Pilih Tahun Ajaran</option>
                 @foreach($periode as $p)
                     <option value="{{$p->id}}">{{$p->nama}}</option>
                 @endforeach
@@ -39,7 +39,7 @@
     <div class="box-footer">
       <button type="submit" class="btn btn-success btn-sm bg-green">Simpan</button>
      <a type="javascript:;" data-toggle="modal" class="btn btn-danger btn-sm-bg-red" data-target="#konfirmasi_batal" data-href="{{route('kelas.index')}}" title="Delete"> Batal</a>
-     
+
     </div>
   </form>
 </div>
@@ -59,7 +59,7 @@
 
 @push('footer')
 <script src="/assets/material/bower_components/moment/min/moment.min.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     //Hapus Data
     $(document).ready(function() {
       $('#konfirmasi_batal').on('show.bs.modal', function(e) {

@@ -29,19 +29,19 @@
       <div class="box-header">
       @if ($message = Session::get('success'))
       <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>    
+        <button type="button" class="close" data-dismiss="alert">×</button>
         <strong>{{ $message }}</strong>
       </div>
       @endif
       @if ($message = Session::get('message'))
       <div class="alert alert-warning alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>    
+        <button type="button" class="close" data-dismiss="alert">×</button>
         <strong>{{ $message }}</strong>
       </div>
       @endif
       @if ($message = Session::get('error'))
       <div class="alert alert-danger alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>    
+        <button type="button" class="close" data-dismiss="alert">×</button>
         <strong>{{ $message }}</strong>
       </div>
       @endif
@@ -61,6 +61,7 @@
           <thead>
             <tr>
               <th width="10"></th>
+              <th>NIS</th>
               <th>Kelas</th>
               <th>Nama</th>
               <th>Tempat Lahir</th>
@@ -117,7 +118,7 @@
 @push('footer')
 <script src="/assets/material/bower_components/moment/min/moment.min.js"></script>
 <script src="/assets/material/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     //Hapus Data
     $(document).ready(function() {
       $('#konfirmasi_hapus').on('show.bs.modal', function(e) {
@@ -125,7 +126,7 @@
       });
     });
   </script>
-  <script type="text/javascript"> 
+  <script type="text/javascript">
     $(function() {
       $('#siswa-table').DataTable({
         responsive: true,
@@ -134,6 +135,7 @@
         ajax: '{!! route('siswa.getdata') !!}',
         columns: [
         { data: 'DT_RowIndex', orderable: false, searchable: false },
+        { data: 'nis', name: 'nis' },
         { data: 'kelas', name: 'kelas' },
         { data: 'nama_siswa', name: 'nama_siswa' },
         { data: 'tempat_lahir', name: 'tempat_lahir' },
@@ -176,7 +178,7 @@
       <div class="modal-body">
         <form action="{{route('siswa.import')}}" method="post" enctype="multipart/form-data">
         @csrf
-          <div class="text-center"> 
+          <div class="text-center">
             <label class="text-black">Upload File (.xls, .xlsx)</label>
           </div>
           <div class="form-group text-center" style="margin-top:0px;">

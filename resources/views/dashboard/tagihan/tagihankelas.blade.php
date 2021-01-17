@@ -1,19 +1,22 @@
 @extends('dashboard.layouts.app')
-@section('title', 'Laporan Siswa')
+@section('title', 'Tagihan')
 
 @section('content')
-@if($siswa->count() > 0 )
+@if($tagihan->count() > 0)
 <div class="row">
   <div class="col-xs-12">
-    <h3 class="pull-left" style="margin-top:0px;">Siswa</h3>
+    <h3 class="pull-left" style="margin-top:0px;">Tagihan</h3>
   </div>
   <div class="col-xs-12">
     <div class="box">
+      @if(auth()->user()->role != 'walikelas')
       <div class="box-header">
-      <!--   <a href="{{route('siswa.create')}}" class="btn btn-secondary bg-green btn-sm pull-left"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Siswa Baru</a>
-        <button type="button" class="btn btn-success btn-sm bg-green pull-left" data-toggle="modal" data-target="#import"> <span class="fa fa-upload"> </span> Import</button> -->
-        <a href="{{route('export.siswa')}}" class="pull-left mb-5 btn btn-secondary btn-sm bg-green"><i class="fa fa-download" aria-hidden="true"></i> Export</a>
-       <!--  <div class="form-group pull-left" style="margin-top:0px;">
+
+        <a href="{{route('tagihan.create')}}" class="btn btn-secondary bg-green btn-sm pull-left"><i class="fa fa-plus" aria-hidden="true"></i> New Tagihan</a>
+
+        <!-- <button type="button" class="btn btn-success btn-sm bg-green pull-left" data-toggle="modal" data-target="#import"> <span class="fa fa-upload"> </span> Import</button>
+        <button id="export" class="pull-left mb-5 btn btn-secondary btn-sm bg-green"><span class="fa fa-download"> Export</span></button>
+        <div class="form-group pull-left" style="margin-top:0px;">
           <div class="btn btn-success btn-sm bg-green">
             <div id="reportrange">
               <i class="fa fa-calendar"></i>&nbsp;
@@ -22,11 +25,12 @@
           </div>
         </div> -->
       </div>
+      @endif
     </div>
   </div>
     <div class="col-xs-12">
     <div class="box">
-     <!--  <div class="box-header">
+      <div class="box-header">
       @if ($message = Session::get('success'))
       <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
@@ -45,21 +49,17 @@
         <strong>{{ $message }}</strong>
       </div>
       @endif
-      </div> -->
+      </div>
       <!-- /.box-header -->
       <div class="box-body">
-        <table id="siswa-laporan" class="table table-bordered table-striped" style="width:100%!important">
-          <thead>
+        <table id="tagihan-table" class="table table-bordered table-striped" style="width:100%!important">
+           <thead>
             <tr>
               <th width="10"></th>
-              <th>NIS</th>
-              <th>Kelas</th>
-              <th>Nama</th>
-              <th>Tempat Lahir</th>
-              <th>Tanggal Lahir</th>
-              <th>Jenis Kelamin</th>
-              <th>Alamat</th>
-              <th>Nama Wali</th>
+              <th>Kode Tagihan</th>
+              <th>Jumlah</th>
+              <th>Nama Siswa</th>
+              <th>Keterangan</th>
             </tr>
           </thead>
         </table>
@@ -77,9 +77,9 @@
   <!-- /.box-header -->
   <div class="box-body">
     <div class="text-center">
-      <h3>Siswa belum ada!</h3>
+      <h3>Tagihan belum ada!</h3>
       <p><img src="{{ asset('assets/images/empty.png') }}" width="250" alt="Empty data"></p>
-      <p><a href="{{route('siswa.create')}}" class="btn btn-secondary bg-yellow btn-xs">Tambah siswa baru</a></p>
+      <p><a href="{{route('tagihan.create')}}" class="btn btn-secondary bg-yellow btn-xs">Tambah tagihan baru</a></p>
     </div>
   </div>
 </div>
@@ -118,21 +118,18 @@
   </script>
   <script type="text/javascript">
     $(function() {
-      $('#siswa-laporan').DataTable({
+      $('#tagihan-table').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('siswa.getdata.laporan') !!}',
+        ajax: '{!! route('tagihan.getdataTagihanKelas') !!}',
         columns: [
         { data: 'DT_RowIndex', orderable: false, searchable: false },
-        { data: 'nis', name: 'nis' },
-        { data: 'kelas', name: 'kelas' },
+        { data: 'kode_tagihan', name: 'kode_tagihan' },
+        { data: 'jumlah', name: 'jumlah' },
         { data: 'nama_siswa', name: 'nama_siswa' },
-        { data: 'tempat_lahir', name: 'tempat_lahir' },
-        { data: 'tanggal_lahir', name: 'tanggal_lahir' },
-        { data: 'jenis_kelamin', name: 'jenis_kelamin' },
-        { data: 'alamat', name: 'alamat' },
-        { data: 'nama_wali', name: 'nama_wali' },
+        { data: 'keterangan', name: 'keterangan' },
+
         ]
       });
     });
@@ -154,3 +151,11 @@
  });
 </script>
 @endpush
+
+
+
+
+
+
+
+

@@ -20,12 +20,16 @@ class TagihanController extends Controller
     {
         $tagihan = \App\Models\Tagihan::all();
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
-        // if(auth()->user()->role == 'walikelas'){
-        //     $userId = auth()->user()->id;
-        //     $waliKelas = WaliKelas::where('user_id',$userId)->first();
-        //     $kelas_id = $waliKelas->kelas_id;
-        // }
+
         return view('dashboard.tagihan.all', compact('tagihan','kelas'));
+    }
+
+    public function tagihan()
+    {
+        $tagihan = \App\Models\Tagihan::all();
+        $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
+
+        return view('dashboard.tagihan.tagihankelas', compact('tagihan','kelas'));
     }
 
     // public function index()
@@ -142,7 +146,11 @@ class TagihanController extends Controller
     public function getData()
     {
         $query = Tagihan::select(['id','nama', 'jumlah', 'peserta', 'keterangan','deleted_at'])->where('deleted_at', '1')->orderBy('created_at','desc');
-
+        if(auth()->user()->role == 'walikelas'){
+            $userId = auth()->user()->id;
+            $waliKelas = WaliKelas::where('user_id',$userId)->first();
+            $kelas_id = $waliKelas->kelas_id;
+        }
        return DataTables::of($query)
             ->addColumn('peserta', function($tagihan){
                 // $output = "Semua Siswa";
@@ -160,4 +168,32 @@ class TagihanController extends Controller
             ->addIndexColumn()
             ->make(true);
     }
+    public function getDataDetailTagihan()
+    {
+        $query = DetailTagihan::join('tagihan','tagihan.id','=','detail_tagihan.tagihan_id')
+        ->join('siswa','siswa.id','=','detail_tagihan.siswa_id');
+        if(auth()->user()->role == 'walikelas'){
+            $userId = auth()->user()->id;
+            $waliKelas = WaliKelas::where('user_id',$userId)->first();
+            $kelas_id = $waliKelas->kelas_id;
+            $query = $query->where('detail_tagihan.kelas_id',$kelas_id);
+        }
+       return DataTables::of($query)
+            // ->addColumn('peserta', function($tagihan){
+            //     // $output = "Semua Siswa";
+            //     if($tagihan->peserta == 'semua siswa'){
+            //         $output = 'Semua Siswa';
+            //     }else{
+            //         $output = 'Hanya Beberapa Kelas ('.$tagihan->peserta.')' ;
+            //     }
+            //     return $output;
+            // })
+            // ->editColumn('action', function ($tagihan) {
+            //     return '<a href="' . route('tagihan.edit',$tagihan->id) . '"><span class="fa fa-pencil" style="margin-right:5px;"> </span> </a> | <a type="javascript:;" data-toggle="modal" data-target="#konfirmasi_hapus" data-href="' . route('tagihan.delete',['id'=>$tagihan->id]) . '" title="Delete"> <span class="fa fa-trash" style="margin-left:5px;"> </span></a>';
+            // })
+            // ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
+    }
 }
+

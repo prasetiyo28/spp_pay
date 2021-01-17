@@ -20,6 +20,7 @@ class SiswaExport implements FromCollection, WithMapping, WithHeadings
      public function map($siswa): array
     {
         return [
+        	$siswa->nis,
         	$siswa->kelas->nama. ' ' .$siswa->kelas->periode->nama,
             $siswa->nama_siswa,
             $siswa->tempat_lahir,
@@ -33,6 +34,7 @@ class SiswaExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
     	return[
+    		'NIS',
     		'KELAS',
     		'NAMA SISWA',
     		'TEMPAT LAHIR',

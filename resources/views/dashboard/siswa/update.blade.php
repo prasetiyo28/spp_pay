@@ -8,10 +8,14 @@
   </div>
   <!-- /.box-header -->
   <!-- form start -->
- 
-  <form autocomplete="off" method="post" action="{{route('siswa.update', $siswa->id)}}" enctype="multipart/form-data">       
+
+  <form autocomplete="off" method="post" action="{{route('siswa.update', $siswa->id)}}" enctype="multipart/form-data">
     @csrf
     <div class="box-body">
+        <div class="form-group">
+            <label>Nomor Induk Siswa</label>
+            <input type="text" class="form-control" name="nis" value="{{$siswa->nis}}">
+        </div>
         <div class="form-group">
             <label>Pilih Kelas</label>
             <select class="form-control" style="width: 100%;" name="kelas_id">
@@ -32,7 +36,7 @@
           <div class="col-sm-6">
             <input type="text" class="form-control datepicker" name="tanggal_lahir" id="tanggal_lahir" value="{{$siswa->tanggal_lahir}}">
           </div>
-         
+
         </div>
 
       <div class="form-group">
@@ -88,8 +92,8 @@
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
       });
     });
-  
- 
+
+
  $(function(){
    $("#tanggal_lahir").datepicker({
     format: 'yy/mm/dd',

@@ -21,6 +21,10 @@
     @csrf
     <div class="box-body">
         <div class="form-group">
+            <label>Nomor Induk Siswa</label>
+            <input type="text" class="form-control" require="require" name="nis" placeholder="Nomor Induk Siswa">
+        </div>
+        <div class="form-group">
             <label>Pilih Kelas</label>
             <select class="form-control" style="width: 100%;" name="kelas_id">
                 <option value="">Pilih Kelas</option>
@@ -102,7 +106,7 @@
 @push('footer')
 <script src="/assets/material/bower_components/moment/min/moment.min.js"></script>
 <script src="/assets/material/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     //Hapus Data
     $(document).ready(function() {
       $('#konfirmasi_batal').on('show.bs.modal', function(e) {
@@ -110,7 +114,7 @@
       });
     });
   </script>
-  <script type="text/javascript"> 
+  <script type="text/javascript">
     $(function() {
       $('#periode-table').DataTable({
         responsive: true,
@@ -124,7 +128,7 @@
         { data: 'tgl_selesai', name: 'tgl_selesai' },
         { data: 'status', name: 'status'},
         { data: 'action', name: 'action' }
-        ] 
+        ]
       });
     });
   </script>

@@ -78,12 +78,14 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','checkRole:admin,
 
     Route::group(['prefix' => 'tagihan'], function(){
         Route::get('/', 'TagihanController@index')->name('tagihan.index');
+        Route::get('kelas', 'TagihanController@tagihan')->name('tagihan.tagihan-kelas');
         Route::get('create', 'TagihanController@create')->name('tagihan.create');
         Route::post('create', 'TagihanController@store')->name('tagihan.store');
         Route::get('edit/{id}', 'TagihanController@edit')->name('tagihan.edit');
         Route::put('update/{id}', 'TagihanController@update')->name('tagihan.update');
         Route::get('{id}/delete', 'TagihanController@destroy')->name('tagihan.delete');
         Route::get('data', 'TagihanController@getData')->name('tagihan.getdata');
+        Route::get('data-tagihan-kelas', 'TagihanController@getDataDetailTagihan')->name('tagihan.getdataTagihanKelas');
     });
 
     Route::resource('wali-kelas', 'WaliKelasController');

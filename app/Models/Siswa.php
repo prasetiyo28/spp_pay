@@ -9,7 +9,7 @@ use Auth;
 class Siswa extends Model
 {
     protected $table = 'siswa';
-    protected $fillable = ['id', 'user_id', 'kelas_id', 'nama_siswa', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin' ,'alamat', 'nama_wali', 'deleted_at'];
+    protected $fillable = ['id','nis', 'user_id', 'kelas_id', 'nama_siswa', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin' ,'alamat', 'nama_wali', 'deleted_at'];
 
 
     public function kelas()
@@ -25,7 +25,7 @@ class Siswa extends Model
         return $this->hasMany('App\Models\Tagihan', 'siswa_id');
     }
 
-    // public function user() 
+    // public function user()
     // {
     //     return $this->hasOne('App\User', 'id_users');
     // }

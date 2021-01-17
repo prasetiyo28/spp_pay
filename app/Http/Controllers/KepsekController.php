@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Siswa;
+use App\Models\WaliKelas;
 use App\Models\Kelas;
 use App\Models\Tagihan;
 use App\Models\DetailTagihan;
@@ -25,16 +26,21 @@ class KepsekController extends Controller
 
     public function siswa()
     {
-        
+
     	$siswa = \App\Models\Siswa::all();
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
-
+        if(auth()->user()->role == 'walikelas'){
+            $userId = auth()->user()->id;
+            $waliKelas = WaliKelas::where('user_id',$userId)->first();
+            $kelas_id = $waliKelas->kelas_id;
+            $siswa = $siswa->where('kelas_id',$kelas_id);
+        }
         return view('dashboard.kepsek.siswa', compact('siswa','kelas'));
     }
 
      public function getDataSiswa()
    {
-        $query = Siswa::select(['id', 'kelas_id', 'nama_siswa', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin' ,'alamat', 'nama_wali', 'deleted_at'])->where('deleted_at', '1');
+        $query = Siswa::select(['id','nis', 'kelas_id', 'nama_siswa', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin' ,'alamat', 'nama_wali', 'deleted_at'])->where('deleted_at', '1');
 
        return DataTables::of($query)
             ->addColumn('kelas', function($siswa){
@@ -60,7 +66,7 @@ class KepsekController extends Controller
     {
         $tagihan = \App\Models\Tagihan::all();
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
-       
+
         return view('dashboard.kepsek.tagihan', compact('tagihan','kelas'));
     }
 
@@ -109,23 +115,23 @@ class KepsekController extends Controller
             ->addColumn('jumlah', function($tj){
                 return  $tj->tagihan->jumlah;
             })
-            
+
             ->rawColumns(['ns','tn','tj','action'])
             ->addIndexColumn()
             ->make(true);
     }
 
-    public function exportsiswa() 
+    public function exportsiswa()
     {
         return Excel::download(new SiswaExport, 'siswa.xlsx');
     }
 
-    public function exporttagihan() 
+    public function exporttagihan()
     {
         return Excel::download(new TagihanExport, 'tagihan.xlsx');
     }
 
-    public function exporttransaksi() 
+    public function exporttransaksi()
     {
         return Excel::download(new TransaksiExport, 'transaksi.xlsx');
     }

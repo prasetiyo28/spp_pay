@@ -113,7 +113,7 @@
         </li>
         <li class="{{ Route::currentRouteName() == 'periode.index' || Route::currentRouteName() == 'periode.edit' || Route::currentRouteName() == 'periode.create' ? 'active' : ''}}">
           <a href="{{route('periode.index')}}">
-            <i class="fa fa-refresh"></i> <span>Periode</span>
+            <i class="fa fa-refresh"></i> <span>Tahun Ajaran</span>
             <span class="pull-right-container"></span>
           </a>
         </li>
@@ -211,8 +211,8 @@
             </span>
           </a>
         </li>
-        <li class="{{ Route::currentRouteName() == 'tagihan.index' || Route::currentRouteName() == 'tagihan.edit' || Route::currentRouteName() == 'tagihan.create' ? 'active' : '' }}">
-          <a href="{{route('tagihan.index')}}">
+        <li class="{{ Route::currentRouteName() == 'tagihan.tagihan-kelas' ? 'active' : '' }}">
+          <a href="{{route('tagihan.tagihan-kelas')}}">
             <i class="fa fa-list-alt"></i> <span>Tagihan</span>
             <span class="pull-right-container"></span>
           </a>

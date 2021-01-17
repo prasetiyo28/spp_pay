@@ -20,7 +20,15 @@ class SiswaController extends Controller
     public function index()
     {
 
-    	$siswa = \App\Models\Siswa::all();
+        $siswa = \App\Models\Siswa::all();
+        if(auth()->user()->role == 'walikelas'){
+            $userId = auth()->user()->id;
+            $waliKelas = WaliKelas::where('user_id',$userId)->first();
+            $kelas_id = $waliKelas->kelas_id;
+
+            $query = $query->where('kelas_id','3');
+        }
+
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
 
         return view('dashboard.siswa.all', compact('siswa','kelas'));
@@ -60,6 +68,7 @@ class SiswaController extends Controller
         if($user){
             $siswa = new \App\Models\Siswa;
             $siswa->user_id = $user->id;
+            $siswa->nis = $request->nis;
             $siswa->kelas_id = $request->kelas_id;
             $siswa->nama_siswa = $request->nama;
             $siswa->tempat_lahir = $request->tempat_lahir;
@@ -113,8 +122,7 @@ class SiswaController extends Controller
 
     public function getData()
    {
-        $query = Siswa::select(['id', 'kelas_id', 'nama_siswa', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin' ,'alamat', 'nama_wali', 'deleted_at'])->where('deleted_at', '1');
-
+        $query = Siswa::select(['id','nis', 'kelas_id', 'nama_siswa', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin' ,'alamat', 'nama_wali', 'deleted_at'])->where('deleted_at', '1');
        return DataTables::of($query)
             ->addColumn('kelas', function($siswa){
                 return  $siswa->kelas->nama. $siswa->kelas->periode->nama;
@@ -138,10 +146,10 @@ class SiswaController extends Controller
     }
 
     public function edit($id)
-    { 
+    {
         $kelas = \App\Models\Kelas::all()->where('deleted_at', '1');
         $siswa = \App\Models\Siswa::find($id);
-       
+
         return view('dashboard.siswa.update', compact('kelas','siswa'));
     }
 
@@ -149,12 +157,13 @@ class SiswaController extends Controller
     {
         $siswa = \App\Models\Siswa::find($id);
         $siswa->kelas_id = $request->kelas_id;
+        $siswa->nis = $request->nis;
         $siswa->nama_siswa = $request->nama_siswa;
         $siswa->tempat_lahir = $request->tempat_lahir;
         $siswa->tanggal_lahir = $request->tanggal_lahir;
         $siswa->jenis_kelamin = $request->jenis_kelamin;
         $siswa->alamat = $request->alamat;
-        $siswa->nama_wali = $request->nama_wali;        
+        $siswa->nama_wali = $request->nama_wali;
         $siswa->save();
         return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diubah');
     }
@@ -168,5 +177,5 @@ class SiswaController extends Controller
     }
 
 
- 
+
 }

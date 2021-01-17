@@ -1,17 +1,17 @@
 @extends('dashboard.layouts.app')
-@section('title', 'Periode')
+@section('title', 'Tahun Ajaran')
 
 @section('content')
 @if($periode->count() > 0)
 <div class="row">
   <div class="col-xs-12">
-    <h3 class="pull-left" style="margin-top:0px;">Periode</h3>
+    <h3 class="pull-left" style="margin-top:0px;">Tahun Ajaran</h3>
   </div>
   <div class="col-md-4">
     <div class="box box-info">
       <div class="box-header with-border">
         <div class="box-title">
-          <h4 style="margin-top: 0px; margin-bottom: 0px;">New Periode</h4>
+          <h4 style="margin-top: 0px; margin-bottom: 0px;">New Tahun Ajaran</h4>
         </div>
       </div>
       <!-- /.box-header -->
@@ -29,8 +29,8 @@
         @csrf
         <div class="box-body">
           <div class="form-group">
-            <label>Nama Periode</label>
-            <input type="text" class="form-control" name="nama" placeholder="Nama">
+            <label>Tahun Ajaran</label>
+            <input type="text" class="form-control" name="nama" placeholder="Tahun Ajaran, ex : 2019/2020">
           </div>
           <div class="form-group">
             <label>Tanggal Masuk s/d Selesai</label>
@@ -67,19 +67,19 @@
       <div class="box-header">
         @if ($message = Session::get('success'))
         <div class="alert alert-success alert-block">
-          <button type="button" class="close" data-dismiss="alert">×</button>    
+          <button type="button" class="close" data-dismiss="alert">×</button>
           <strong>{{ $message }}</strong>
         </div>
         @endif
         @if ($message = Session::get('message'))
         <div class="alert alert-warning alert-block">
-          <button type="button" class="close" data-dismiss="alert">×</button>    
+          <button type="button" class="close" data-dismiss="alert">×</button>
           <strong>{{ $message }}</strong>
         </div>
         @endif
         @if ($message = Session::get('error'))
         <div class="alert alert-danger alert-block">
-          <button type="button" class="close" data-dismiss="alert">×</button>    
+          <button type="button" class="close" data-dismiss="alert">×</button>
           <strong>{{ $message }}</strong>
         </div>
         @endif
@@ -94,12 +94,12 @@
         @endif
       </div>
       <!-- /.box-header -->
-      <div class="box-body">       
+      <div class="box-body">
         <table id="periode-table" class="table table-bordered table-striped" style="width:100%!important">
           <thead>
             <tr>
               <th width="10"></th>
-              <th>Nama Periode</th>
+              <th>Tahun Ajaran</th>
               <th>Tanggal Mulai</th>
               <th>Tanggal Selesai</th>
               <th>Tahun</th>
@@ -120,9 +120,9 @@
   <!-- /.box-header -->
   <div class="box-body">
     <div class="text-center">
-      <h3>Periode masih kosong!</h3>
+      <h3>Tahun Ajaran masih kosong!</h3>
       <p><img src="{{ asset('assets/images/empty.png') }}" width="250" alt="Empty data"></p>
-      <p><a href="{{route('periode.create')}}" class="btn btn-secondary bg-yellow btn-xs">Buat periode baru</a></p>
+      <p><a href="{{route('periode.create')}}" class="btn btn-secondary bg-yellow btn-xs">Buat Tahun Ajaran baru</a></p>
     </div>
   </div>
 </div>
@@ -150,7 +150,7 @@
 @push('footer')
 <script src="/assets/material/bower_components/moment/min/moment.min.js"></script>
 <script src="/assets/material/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     //Hapus Data
     $(document).ready(function() {
       $('#konfirmasi_hapus').on('show.bs.modal', function(e) {
@@ -158,7 +158,7 @@
       });
     });
   </script>
-  <script type="text/javascript"> 
+  <script type="text/javascript">
     $(function() {
       $('#periode-table').DataTable({
         responsive: true,

@@ -26,7 +26,7 @@
       </div>
       <div class="form-group">
         <label>Jumlah</label>
-        <input type="number" class="form-control" name="jumlah" placeholder="Jumlah">
+        <input type="number" class="form-control"  name="jumlah" placeholder="Jumlah">
       </div>
       <div class="form-group">
         <label for="seeAnotherField" >Peserta</label>
@@ -40,7 +40,7 @@
       <div class="form-group" id="kelasFieldDiv">
         <label for="kelasField">Kelas</label>
         <select class="form-control" id="kelasField" name="kelas_id">
-          <option value="">--Pilih Kelas--</option> 
+          <option value="">--Pilih Kelas--</option>
           @foreach($kelas as $k)
             <option value="{{$k->id}}">{{$k->nama}}</option>
           @endforeach
@@ -55,7 +55,7 @@
     <div class="box-footer">
       <button type="submit" class="btn btn-success btn-sm bg-green">Simpan</button>
      <a type="javascript:;" data-toggle="modal" class="btn btn-danger btn-sm-bg-red" data-target="#konfirmasi_batal" data-href="{{route('tagihan.index')}}" title="Delete"> Batal</a>
-     
+
     </div>
   </form>
 </div>
@@ -68,7 +68,7 @@
 @push('footer')
 <script src="/assets/material/bower_components/moment/min/moment.min.js"></script>
 <script src="/assets/material/bower_components/select2/dist/js/select2.full.min.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     //Hapus Data
     $(document).ready(function() {
       $('#konfirmasi_batal').on('show.bs.modal', function(e) {

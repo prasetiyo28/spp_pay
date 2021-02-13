@@ -13,7 +13,7 @@ class PeriodeController extends Controller
     public function index(Request $request)
     {
         $periode = \App\Models\Periode::all()->where('deleted_at', '1');
-       
+
         return view('dashboard.periode.all', compact('periode'));
     }
 
@@ -38,7 +38,6 @@ class PeriodeController extends Controller
         ];
 
         $valid = $request->validate([
-            'nama' => 'required|regex:/^[\pL\s\-]+$/u',
             'tgl_mulai' => 'required',
             'tgl_selesai' => 'required',
             'tahun' => 'required|numeric'
@@ -76,7 +75,7 @@ class PeriodeController extends Controller
 
     public function edit($id)
     {
-        $periode = \App\Models\Periode::find($id); 
+        $periode = \App\Models\Periode::find($id);
         return view('dashboard.periode.update', compact('periode'));
     }
 

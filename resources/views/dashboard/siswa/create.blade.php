@@ -22,7 +22,7 @@
     <div class="box-body">
         <div class="form-group">
             <label>Nomor Induk Siswa</label>
-            <input type="text" class="form-control" require="require" name="nis" placeholder="Nomor Induk Siswa">
+            <input type="text" class="form-control" onkeypress="return isNumber(event)" require="require" name="nis" placeholder="Nomor Induk Siswa">
         </div>
         <div class="form-group">
             <label>Pilih Kelas</label>
@@ -113,6 +113,17 @@
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
       });
     });
+  </script>
+  <script>
+
+  function isNumber(evt)
+  {
+     var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+     return true;
+  }
   </script>
   <script type="text/javascript">
     $(function() {
